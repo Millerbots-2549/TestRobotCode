@@ -6,9 +6,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.Constants.IOConstants;
+import frc.robot.commands.drive.DefaultDrive;
+import frc.robot.commands.manipulator.LowerArm;
+import frc.robot.commands.manipulator.RaiseArm;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ManipulatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,14 +25,27 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final ManipulatorSubsystem m_manipulatorSubsystem = new ManipulatorSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final Command m_raiseArm = new RaiseArm(m_manipulatorSubsystem);
+  private final Command m_lowerArm = new LowerArm(m_manipulatorSubsystem);
+
+  // A chooser for autonomous commands
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+  // Initialize controllers
+  XboxController m_driverController = new XboxController(IOConstants.kDriverControllerPort);
+  XboxController m_manipulatorController = new XboxController(IOConstants.kManipulatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    // Set default commands for subsystems
+    m_driveSubsystem.setDefaultCommand(new DefaultDrive(m_driveSubsystem, m_driverController::getLeftY, m_driverController::getRightY));
+    m_manipulatorSubsystem.setDefaultCommand(m_raiseArm);
   }
 
   /**
@@ -34,7 +54,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    // Lowers arm when A is pressed, defaults back to raised arm when A is pressed again
+    new JoystickButton(m_manipulatorController, Button.kA.value).toggleOnTrue(m_lowerArm);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -43,6 +66,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }

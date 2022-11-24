@@ -12,4 +12,37 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+
+    public static final class DriveConstants {
+        // Drive motor controller ports
+        public static final int kLeftMotor1Port = 13;
+        public static final int kLeftMotor2Port = 12;
+        public static final int kRightMotor1Port = 3;
+        public static final int kRightMotor2Port = 2;
+    }
+
+    public static final class IOConstants {
+        // XBox controller ports
+        public static final int kDriverControllerPort = 0;
+        public static final int kManipulatorControllerPort = 0;
+    }
+
+    public static final class ArmConstants {
+        public static final int[] kArmSolenoidPorts = new int[] {1, 0};
+    }
+
+    public static final class ShootConstants {
+        // Shooter motor controller and solenoid ports
+        public static final int kTopShootMotorPort = 0;
+        public static final int kBottomShootMotorPort = 1;
+        public static final int[] kShootSolenoid1Ports = new int[] {4, 5};
+        public static final int[] kShootSolenoid2Ports = new int[] {7, 6};
+
+        // PID constants
+        public static final double kShootMotor_kP = 0.09;
+        public static final double kShootMotor_kF = 0.04589027;
+        public static final double kShootMotor_kD = 4.2;
+        public static final double kShootMotor_kI = 0;
+    }
+}
