@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ShootConstants;
 
+import java.lang.Math;
+
 public class ManipulatorSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_topShootMotor = new WPI_TalonFX(ShootConstants.kTopShootMotorPort);
   private final WPI_TalonFX m_bottomShootMotor = new WPI_TalonFX(ShootConstants.kBottomShootMotorPort);
@@ -79,6 +81,13 @@ public class ManipulatorSubsystem extends SubsystemBase {
     m_armSolenoid.set(Value.kForward);
   }
 
+  public DoubleSolenoid getShootSolenoid1(){
+    return m_shootSolenoid1;
+  }
+  public DoubleSolenoid getShootSolenoid2(){
+    return m_shootSolenoid2;
+  }
+
   public void extendShootSolenoid(DoubleSolenoid solenoid){
     solenoid.set(Value.kForward);
   }
@@ -86,4 +95,15 @@ public class ManipulatorSubsystem extends SubsystemBase {
     solenoid.set(Value.kReverse);
   }
 
+  public DoubleSolenoid.Value getArmStatus(){
+    return m_armSolenoid.get();
+  }
+
+  // Returns if shoot motors are within the specified tolerance
+  public boolean getShootMotorsReady(double setpoint){
+    double topMotorError = Math.abs(setpoint - m_topShootMotor.getSelectedSensorVelocity());
+    double bottomMotorError = Math.abs(setpoint - m_bottomShootMotor.getSelectedSensorVelocity());
+
+    return (topMotorError < ShootConstants.kShootMotorTolerance) && (bottomMotorError < ShootConstants.kShootMotorTolerance);
+  }
 }

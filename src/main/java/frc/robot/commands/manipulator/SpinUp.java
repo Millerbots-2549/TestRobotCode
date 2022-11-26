@@ -7,23 +7,17 @@ package frc.robot.commands.manipulator;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ManipulatorSubsystem;
 
-public class RaiseArm extends CommandBase {
+public class SpinUp extends CommandBase {
   private final ManipulatorSubsystem m_manipulatorSubsystem;
   private final double m_shootSpeed;
 
-  /** Creates a new RaiseArm. */
-  public RaiseArm(ManipulatorSubsystem subsystem, double speed) {
+  /** Creates a new SpinUpLow. */
+  public SpinUp(ManipulatorSubsystem subsystem, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_manipulatorSubsystem = subsystem;
     m_shootSpeed = speed;
 
     addRequirements(m_manipulatorSubsystem);
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    m_manipulatorSubsystem.raiseArm();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,6 +33,6 @@ public class RaiseArm extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_manipulatorSubsystem.getShootMotorsReady(m_shootSpeed);
   }
 }

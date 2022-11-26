@@ -44,5 +44,10 @@ public final class Constants {
         public static final double kShootMotor_kF = 0.04589027;
         public static final double kShootMotor_kD = 4.2;
         public static final double kShootMotor_kI = 0;
+
+        //Shoot motor speeds, tolerances
+        public static final double kShootLowSpeed = 7500;
+        public static final double kShootHighSpeed = 15400;
+        public static final double kShootMotorTolerance = 250;
     }
 }

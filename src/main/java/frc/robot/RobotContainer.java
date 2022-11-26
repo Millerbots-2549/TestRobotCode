@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Constants.IOConstants;
+import frc.robot.Constants.ShootConstants;
 import frc.robot.commands.drive.DefaultDrive;
 import frc.robot.commands.manipulator.LowerArm;
 import frc.robot.commands.manipulator.RaiseArm;
+import frc.robot.commands.manipulator.ShootTwo;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ManipulatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,12 +26,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  // The robot's subsystems are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ManipulatorSubsystem m_manipulatorSubsystem = new ManipulatorSubsystem();
-
-  private final Command m_raiseArm = new RaiseArm(m_manipulatorSubsystem);
-  private final Command m_lowerArm = new LowerArm(m_manipulatorSubsystem);
 
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -45,7 +44,7 @@ public class RobotContainer {
 
     // Set default commands for subsystems
     m_driveSubsystem.setDefaultCommand(new DefaultDrive(m_driveSubsystem, m_driverController::getLeftY, m_driverController::getRightY));
-    m_manipulatorSubsystem.setDefaultCommand(m_raiseArm);
+    m_manipulatorSubsystem.setDefaultCommand(new RaiseArm(m_manipulatorSubsystem, ShootConstants.kShootLowSpeed));
   }
 
   /**
@@ -56,7 +55,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Lowers arm when A is pressed, defaults back to raised arm when A is pressed again
-    new JoystickButton(m_manipulatorController, Button.kA.value).toggleOnTrue(m_lowerArm);
+    new JoystickButton(m_manipulatorController, Button.kA.value).toggleOnTrue(new LowerArm(m_manipulatorSubsystem));
+
+    // Shoots two balls low when B is pressed, high when Y is pressed
+    new JoystickButton(m_manipulatorController, Button.kB.value).onTrue(new ShootTwo(m_manipulatorSubsystem, ShootConstants.kShootLowSpeed));
+    new JoystickButton(m_manipulatorController, Button.kY.value).onTrue(new ShootTwo(m_manipulatorSubsystem, ShootConstants.kShootHighSpeed));
   }
 
   /**
