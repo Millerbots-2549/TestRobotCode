@@ -15,11 +15,13 @@ package frc.robot;
 public final class Constants {
 
     public static final class DriveConstants {
-        // Drive motor controller ports
-        public static final int kLeftMotor1Port = 13;
-        public static final int kLeftMotor2Port = 12;
-        public static final int kRightMotor1Port = 3;
-        public static final int kRightMotor2Port = 2;
+        public static final int kLeftDriveMotor1Port = 13;
+        public static final int kLeftDriveMotor2Port = 12;
+        public static final int kRightDriveMotor1Port = 3;
+        public static final int kRightDriveMotor2Port = 2;
+
+        // What percentage of the normal drive speed should SlowDrive drive at
+        public static final double kSlowDriveFactor = 0.5;
     }
 
     public static final class IOConstants {
@@ -33,7 +35,6 @@ public final class Constants {
     }
 
     public static final class ShootConstants {
-        // Shooter motor controller and solenoid ports
         public static final int kTopShootMotorPort = 0;
         public static final int kBottomShootMotorPort = 1;
         public static final int[] kShootSolenoid1Ports = new int[] {4, 5};
@@ -45,9 +46,15 @@ public final class Constants {
         public static final double kShootMotor_kD = 4.2;
         public static final double kShootMotor_kI = 0;
 
-        //Shoot motor speeds, tolerances
         public static final double kShootLowSpeed = 7500;
         public static final double kShootHighSpeed = 15400;
-        public static final double kShootMotorTolerance = 250;
+        public static final double kShootMotorSpeedTolerance = 250;
+    }
+
+    public static final class AutoConstants {
+        public static final double kAutoShootSpeed = 7500;
+        public static final double kAutoDriveSpeed = -0.7;
+        public static final double kAutoDriveTime = 1.4;
+        public static final double kAutoWaitTime = 10;
     }
 }
