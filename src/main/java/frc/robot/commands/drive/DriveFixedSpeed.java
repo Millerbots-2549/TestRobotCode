@@ -4,30 +4,26 @@
 
 package frc.robot.commands.drive;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DefaultDrive extends CommandBase {
+public class DriveFixedSpeed extends CommandBase {
   private final DriveSubsystem m_driveSubsystem;
-  private final DoubleSupplier m_leftSpeed;
-  private final DoubleSupplier m_rightSpeed;
-  
-  /** Creates a new DefaultDrive. */
-  public DefaultDrive(DriveSubsystem subsystem, DoubleSupplier left, DoubleSupplier right) {
+  private final double m_driveSpeed;
+
+  /** Creates a new DriveFixedSpeed. */
+  public DriveFixedSpeed(DriveSubsystem subsystem, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveSubsystem = subsystem;
-    m_leftSpeed = left;
-    m_rightSpeed = right;
-    
+    m_driveSpeed = speed;
+
     addRequirements(m_driveSubsystem);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSubsystem.tankDrive(m_leftSpeed.getAsDouble(), m_rightSpeed.getAsDouble());
+    m_driveSubsystem.tankDrive(m_driveSpeed, m_driveSpeed);
   }
 
   // Called once the command ends or is interrupted.

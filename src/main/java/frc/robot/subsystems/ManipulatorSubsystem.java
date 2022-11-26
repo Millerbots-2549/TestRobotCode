@@ -104,6 +104,6 @@ public class ManipulatorSubsystem extends SubsystemBase {
     double topMotorError = Math.abs(setpoint - m_topShootMotor.getSelectedSensorVelocity());
     double bottomMotorError = Math.abs(setpoint - m_bottomShootMotor.getSelectedSensorVelocity());
 
-    return (topMotorError < ShootConstants.kShootMotorTolerance) && (bottomMotorError < ShootConstants.kShootMotorTolerance);
+    return (topMotorError < ShootConstants.kShootMotorSpeedTolerance) && (bottomMotorError < ShootConstants.kShootMotorSpeedTolerance);
   }
 }
